@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('beer_reviews.csv')  
 
-# print("Column names:", df.columns)
+print("Column names:", df.columns)
 
 # 1. Which brewery produces the strongest beers?
 strongest_beer_index = df['beer_abv'].idxmax()
@@ -57,24 +57,38 @@ else:
 
 
 # 3. Factors that impact the quality of beer the most
-# Plot ABV vs. Quality
-plt.figure(figsize=(10, 6))
-plt.scatter(df['beer_abv'], df['review_overall'], alpha=0.5)
-plt.title('Relationship between ABV and Quality')
-plt.xlabel('ABV (%)')
-plt.ylabel('Quality (Overall Review)')
-# Plot Aroma vs. Quality
-plt.figure(figsize=(10, 6))
-plt.scatter(df['review_aroma'], df['review_overall'], alpha=0.5, color='orange')
-plt.title('Relationship between Aroma and Quality')
-plt.xlabel('Aroma Review Score')
-plt.ylabel('Quality (Overall Review)')
-# Plot Appearance vs. Quality
-plt.figure(figsize=(10, 6))
-plt.scatter(df['review_appearance'], df['review_overall'], alpha=0.5, color='green')
-plt.title('Relationship between Appearance and Quality')
-plt.xlabel('Appearance Review Score')
-plt.ylabel('Quality (Overall Review)')
 
-plt.show()
+style_to_analyze = 'Faro'
+beers_of_style = df[df['beer_style'] == style_to_analyze]
+
+if beers_of_style.empty:
+    print(f"No beers found for style: {style_to_analyze}")
+else:
+    # Plot ABV vs. Quality
+    plt.figure(figsize=(10, 6))
+    plt.scatter(beers_of_style['beer_abv'], beers_of_style['review_overall'], alpha=0.5)
+    plt.title(f'Relationship between ABV and Quality for {style_to_analyze}')
+    plt.xlabel('ABV (%)')
+    plt.ylabel('Quality (Overall Review)')
+    plt.xlim(0, beers_of_style['beer_abv'].max())
+    plt.ylim(0, 5)
+    plt.show()
+
+    # Plot Aroma vs. Quality
+    plt.figure(figsize=(10, 6))
+    plt.scatter(beers_of_style['review_aroma'], beers_of_style['review_overall'], alpha=0.5, color='orange')
+    plt.title(f'Relationship between Aroma and Quality for {style_to_analyze}')
+    plt.xlabel('Aroma Review Score')
+    plt.ylabel('Quality (Overall Review)')
+    plt.ylim(0, 5)
+    plt.show()
+
+    # Plot Appearance vs. Quality
+    plt.figure(figsize=(10, 6))
+    plt.scatter(beers_of_style['review_appearance'], beers_of_style['review_overall'], alpha=0.5, color='green')
+    plt.title(f'Relationship between Appearance and Quality for {style_to_analyze}')
+    plt.xlabel('Appearance Review Score')
+    plt.ylabel('Quality (Overall Review)')
+    plt.ylim(0, 5)
+    plt.show()
 
